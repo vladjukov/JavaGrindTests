@@ -9,11 +9,22 @@ repositories {
     mavenCentral()
 }
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.0'
 }
 
 test {
     useJUnitPlatform()
+    systemProperties = ['junit.jupiter.execution.parallel.enabled'             : 'true',
+                        'junit.jupiter.execution.parallel.mode.default'        : 'concurrent',
+                        'junit.jupiter.execution.parallel.mode.classes.default': 'concurrent'
+    ]
 }
